@@ -15,4 +15,4 @@ clean:
 run:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp_legacy.py --map fire_land_2 --monsters fire_pig,black_axe_stump --attack magic_claw
 run-2:
-	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp_legacy.py --map ant_cave_2 --monsters spike_mushroom,zombie_mushroom --attack magic_claw
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map cloud_balcony --monsters brown_windup_bear,pink_windup_bear --attack magic_claw
