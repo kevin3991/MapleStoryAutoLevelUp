@@ -10,26 +10,26 @@ class Config:
     # Adjust the following key to match the in-game keybinding for your character.
 
     # Key to trigger AoE skill (e.g., Monk's AoE heal or Mage's AoE attack).
-    aoe_skill_key = "q"
+    aoe_skill_key = "s"
 
     # Key to trigger the basic attack skill, like Mage's Magic Claw.
-    magic_claw_key = "w"
+    magic_claw_key = "d"
 
     # Key to trigger Mage's teleport skill
     teleport_key = "" # set to "", if need to disable teleport skill
 
     # Key for jumping.
-    jump_key = "space"
+    jump_key = "z"
 
     # Key to use a health potion.
-    heal_key = "1"
+    heal_key = ""
 
     # Key to use a mana potion.
-    add_mp_key = "2"
+    add_mp_key = ""
 
     # Buff skill keys, e.g., magical sheild, angel blessing
-    buff_skill_keys     = []
-    buff_skill_cooldown = [] # Second
+    buff_skill_keys     = ["1", "2"]
+    buff_skill_cooldown = [140, 45] # Second
     buff_skill_active_duration = 1 # second
     # ────────────────
     # System
@@ -50,7 +50,7 @@ class Config:
     # Edge Teleport
     # ────────────────
     # Mage can use teleport skill if they're too close to edge
-    is_edge_teleport = True
+    is_edge_teleport = False
     edge_teleport_box_width  = 20
     edge_teleport_box_height = 10
     edge_teleport_color_code = (255,127,127) # (R,G,B)
@@ -185,7 +185,7 @@ class Config:
     # ────────────────
     # Don't modify the following parameter unless you know what you are doing
     # ────────────────
-    game_window_title = 'MapleStory Worlds-Artale (繁體中文版)'
+    game_window_title = 'MapleStory Worlds'
     # color code for patrol route
     color_code = {
         # R   G   B
