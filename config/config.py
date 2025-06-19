@@ -85,8 +85,8 @@ class Config:
     aoe_skill_range_x = 400 # pixels (horizontal range)
     aoe_skill_range_y = 170  # pixels (vertical range)
     # magic claw skill attack range relative to player position
-    magic_claw_range_x = 350 # pixels (horizontal range)
-    magic_claw_range_y = 70  # pixels (vertical range)
+    magic_claw_range_x = 380 # pixels (horizontal range)
+    magic_claw_range_y = 90  # pixels (vertical range)
     # attack cooldown time in seconds
     attack_cooldown = 0.05  # seconds between attacks
     # character turn delay before attack
@@ -140,7 +140,7 @@ class Config:
     # ────────────────
     arrow_box_size = 80 # pixel, 75x75 box
     arrow_box_interval = 170 # pixel width
-    arrow_box_start_point = (355, 355)
+    arrow_box_start_point = (355, 365)
     arrow_box_diff_thres = 0.2
 
     # ────────────────
