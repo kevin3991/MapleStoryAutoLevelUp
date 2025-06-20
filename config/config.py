@@ -27,15 +27,21 @@ class Config:
     # Key to use a mana potion.
     add_mp_key = ""
 
+    # ────────────────
+    # Buff skill
+    # ────────────────
     # Buff skill keys, e.g., magical sheild, angel blessing
     buff_skill_keys     = ["1", "2"]
     buff_skill_cooldown = [140, 45] # Second
     buff_skill_active_duration = 1 # second
+    buff_skill_action_cooldown = 1 # second, avoid cast buff skill after attack
+
     # ────────────────
     # System
     # ────────────────
     # FPS(Frame per Second) limit for main thread
     fps_limit = 10
+    show_debug_window = True # False, disable debug window to save system resource
 
     # ────────────────
     # Mage Teleport
@@ -60,7 +66,7 @@ class Config:
     # ────────────────
     # offset from the nametag's top-left corner to the player's center
     nametag_offset = (-50, 30) # pixel
-    nametag_diff_thres = 0.4
+    nametag_diff_thres = 0.2
 
     # Nametag template matching threshold.
     # If the matching diff is smaller than <nametag_global_thres>
@@ -70,6 +76,8 @@ class Config:
     # If you find the nametag is cached, but the location is incorrect.
     # Disable this feature by setting nametag_global_thres = 0.0
     nametag_global_thres = 0.2
+    nametag_split_width = 30 # pixel, vertically split nametag
+    nametag_detection_mode = "grayscale" # "grayscale", "white_mask"
 
     # ────────────────
     # Camera
@@ -150,12 +158,6 @@ class Config:
     # ────────────────
     # HP Bar and HP bar
     # ────────────────
-    hp_bar_top_left = (348, 732)
-    hp_bar_bottom_right = (509, 749)
-    mp_bar_top_left = (517, 732)
-    mp_bar_bottom_right = (678, 749)
-    exp_bar_top_left = (699, 732)
-    exp_bar_bottom_right = (860, 749)
     heal_ratio = 0.5 # heal when hp is below 50%
     add_mp_ratio = 0.5 # drink potion when mp is below 50%
     # Health monitor cooldowns (to prevent spam)

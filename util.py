@@ -346,3 +346,80 @@ def get_player_location_on_minimap(img_minimap, minimap_player_color=(136, 255, 
     loc_player_minimap = (int(round(avg[0])), int(round(avg[1])))
 
     return loc_player_minimap
+
+def get_bar_ratio(img):
+    '''
+    Get HP/MP/EXP bar ratio with given bar image
+
+    Return: float [0.0 - 1.0]
+    '''
+    # Sample a horizontal line at the vertical center of the bar
+    h, w = img.shape[:2]
+    line_pixels = img[h // 2, :]
+
+    # Get left white boundary of bar
+    lb = 0
+    while lb < w and np.all(line_pixels[lb] >= 255):
+        lb += 1
+
+    # Get right white boundary of bar
+    rb = w - 1
+    while rb > lb and np.all(line_pixels[rb] >= 255):
+        rb -= 1
+
+    # Sanity check
+    if rb <= lb:
+        return 0.0
+
+    # Get unfill pixel count in bar
+    unfill_pixel_cnt = 0
+    tolerance = 10
+    for i in range(lb, rb + 1):
+        r, g, b = line_pixels[i]
+        if  abs(int(r) - int(g)) <= tolerance and \
+            abs(int(r) - int(b)) <= tolerance and \
+            int(r) > 0:
+            unfill_pixel_cnt += 1
+
+    # Compute fill ratio
+    total_width = rb - lb + 1
+    fill_width = total_width - unfill_pixel_cnt
+    fill_ratio = fill_width / total_width if total_width > 0 else 0.0
+    return fill_ratio
+
+def nms_matches(matches, iou_thresh=0.0):
+    '''
+    Apply non-maximum suppression to remove overlapping matches.
+
+    Args:
+        matches: List of tuples (idx, loc, score, shape)
+        iou_thresh: IoU threshold to trigger suppression (default 0.0 = any overlap)
+
+    Returns:
+        List of filtered matches (same format as input)
+    '''
+    filtered = matches.copy()
+    i = 0
+    while i < len(filtered):
+        j = i + 1
+        while j < len(filtered):
+            _, loc_i, score_i, shape_i = filtered[i]
+            _, loc_j, score_j, shape_j = filtered[j]
+
+            box_i = (loc_i[0], loc_i[1],
+                     loc_i[0] + shape_i[1], loc_i[1] + shape_i[0])
+            box_j = (loc_j[0], loc_j[1],
+                     loc_j[0] + shape_j[1], loc_j[1] + shape_j[0])
+
+            if get_iou(box_i, box_j) > iou_thresh:
+                if score_i > score_j:
+                    filtered.pop(i)
+                    i -= 1
+                    break
+                else:
+                    filtered.pop(j)
+                    j -= 1
+            j += 1
+        i += 1
+
+    return filtered
