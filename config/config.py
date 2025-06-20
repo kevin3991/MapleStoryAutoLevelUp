@@ -28,8 +28,10 @@ class Config:
     add_mp_key = ""
 
     # Buff skill keys, e.g., magical sheild, angel blessing
-    buff_skill_keys     = ["1", "2"]
-    buff_skill_cooldown = [140, 45] # Second
+    buff_skill_keys     = []
+    buff_skill_cooldown = [] # Second
+    # buff_skill_keys     = ["1", "2"]
+    # buff_skill_cooldown = [140, 45] # Second
     buff_skill_active_duration = 1 # second
     # ────────────────
     # System
@@ -86,10 +88,10 @@ class Config:
     aoe_skill_range_y = 170  # pixels (vertical range)
     # magic claw skill attack range relative to player position
     # 槍騎
-    magic_claw_range_x = 120 # pixels (horizontal range)
-    magic_claw_range_y = 90  # pixels (vertical range)
+    magic_claw_range_x = 140 # pixels (horizontal range)
+    magic_claw_range_y = 100  # pixels (vertical range)
     # 槍手
-    # magic_claw_range_x = 380 # pixels (horizontal range)
+    # magic_claw_range_x = 350 # pixels (horizontal range)
     # magic_claw_range_y = 90  # pixels (vertical range)
     # attack cooldown time in seconds
     attack_cooldown = 0.05  # seconds between attacks
