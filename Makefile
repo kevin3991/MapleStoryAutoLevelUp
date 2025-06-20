@@ -13,7 +13,7 @@ clean:
 	rm -rf $(VENV)
 
 run:
-	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp_legacy.py --map fire_land_2 --monsters fire_pig,black_axe_stump --attack magic_claw
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map fire_land_1 --monsters fire_pig,black_axe_stump --attack magic_claw
 run-2:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map cloud_balcony --monsters brown_windup_bear,pink_windup_bear --attack magic_claw
 run-3:

@@ -1105,6 +1105,7 @@ class MapleStoryBot:
         minimap_result = get_minimap_loc_size(self.img_frame)
         if minimap_result is None:
             logger.warning("Failed to get minimap location and size.")
+            return
         else:
             x, y, w, h = minimap_result
             self.loc_minimap = (x, y)
