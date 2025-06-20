@@ -720,12 +720,21 @@ class MapleStoryBot:
             None
         '''
         while self.is_in_rune_game():
+            # 先截取畫面，並且存成圖片
+            self.frame = self.capture.get_frame()
+            screenshot(self.frame, "before_solve_rune")
+            print("🔍 Before solve rune")
+
             for arrow_idx in [0,1,2,3]:
                 # Get lastest game screen frame buffer
                 self.frame = self.capture.get_frame()
+                screenshot(self.frame, f"solving_rune_{arrow_idx}")
+                print("🔍 Solving rune", arrow_idx)
+
                 # Resize game screen to 1296x759
                 self.img_frame = cv2.resize(self.frame, (1296, 759),
                                             interpolation=cv2.INTER_NEAREST)
+
 
                 # Crop arrow detection box
                 x = self.cfg.arrow_box_start_point[0] + self.cfg.arrow_box_interval*arrow_idx
@@ -741,6 +750,8 @@ class MapleStoryBot:
                         _, score, _ = find_pattern_sqdiff(
                                         img_roi, img_arrow,
                                         mask=get_mask(img_arrow, (0, 255, 0)))
+
+                        print("🔍 Arrow", arrow_idx, "direction", direction, "score", score)
                         if score < best_score:
                             best_score = score
                             best_direction = direction
@@ -757,7 +768,7 @@ class MapleStoryBot:
                 cv2.waitKey(1)
 
                 # For logging
-                screenshot(self.img_frame_debug, "solve_rune")
+                screenshot(self.img_frame_debug, f"solve_rune_{arrow_idx}")
 
                 # Press the key for 0.5 second
                 if not self.args.disable_control:
@@ -1135,12 +1146,17 @@ class MapleStoryBot:
             self.kb.disable() # Disable kb thread during rune solving
 
             # Attempt to trigger rune
+            print("🔍 Attempting to trigger rune game")
+            print("🔍 self.args.disable_control", self.args.disable_control)
             if not self.args.disable_control:
+                print("🔍 Pressing 'up' key")
                 self.kb.press_key("up", 0.02)
             time.sleep(1) # Wait for rune game to pop up
 
             # If entered the game, start solving rune
+            print("🔍 Checking if in rune game: ", self.is_in_rune_game())
             if self.is_in_rune_game():
+                print("🔍 Entered rune game")
                 self.solve_rune() # Blocking until runes solved
                 self.rune_detect_level = 0 # reset rune detect level
                 self.switch_status("hunting")

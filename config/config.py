@@ -85,8 +85,12 @@ class Config:
     aoe_skill_range_x = 400 # pixels (horizontal range)
     aoe_skill_range_y = 170  # pixels (vertical range)
     # magic claw skill attack range relative to player position
-    magic_claw_range_x = 380 # pixels (horizontal range)
+    # 槍騎
+    magic_claw_range_x = 120 # pixels (horizontal range)
     magic_claw_range_y = 90  # pixels (vertical range)
+    # 槍手
+    # magic_claw_range_x = 380 # pixels (horizontal range)
+    # magic_claw_range_y = 90  # pixels (vertical range)
     # attack cooldown time in seconds
     attack_cooldown = 0.05  # seconds between attacks
     # character turn delay before attack
@@ -133,7 +137,7 @@ class Config:
     rune_finding_timeout = 1200 # second
     rune_detect_level_coef = 0.1 # raise threshold for each level
     rune_detect_level_raise_interval = 60 # second
-    near_rune_duration = 5 # second
+    near_rune_duration = 15 # second
 
     # ────────────────
     # Rune mini-game
