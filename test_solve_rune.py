@@ -56,11 +56,13 @@ def test_solve_rune_with_image(image_path):
         img_roi = bot.img_frame[y:y+size, x:x+size]
         best_score = float('inf')
         best_direction = ""
+        print(f"--------------------------------")
         for direction, arrow_list in bot.img_arrows.items():
             for img_arrow in arrow_list:
                 _, score, _ = find_pattern_sqdiff(
                     img_roi, img_arrow, mask=get_mask(img_arrow, (0, 255, 0))
                 )
+                print(f"Arrow({arrow_idx}): {direction}, score={score}")
                 if score < best_score:
                     best_score = score
                     best_direction = direction

@@ -1091,7 +1091,7 @@ class MapleStoryBot:
         # Get minimap coordinate and size on game window
         minimap_result = get_minimap_loc_size(self.img_frame)
         if minimap_result is None:
-            logger.warning("Failed to get minimap location and size.")
+            # logger.warning("Failed to get minimap location and size.")
             return
         x, y, w, h = minimap_result
         self.loc_minimap = (x, y)
