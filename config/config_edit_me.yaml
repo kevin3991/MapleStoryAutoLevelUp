@@ -28,7 +28,7 @@ key:
 # Smaller range -> you will fight monster in close-range combat
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
 directional_attack:
-  range_x: 140              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_x: 300              # ↔️ Try reducing if you’re hitting unreachable monsters.
   range_y: 100              # ↕️
 
 # 💥 AOE SKILL SETTINGS
