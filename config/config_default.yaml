@@ -18,12 +18,12 @@
 #   - "shift":  Shift key
 
 key:
-  aoe_skill: "q"            # 💥 AoE skill (e.g., Cleric's heal or Mage's lightning)
-  directional_attack: "w"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
-  teleport: "e"             # 🌀 Teleport skill. Set to "" if not usable
-  jump: "space"             # 🦘 Jump key
-  add_hp: "1"               # ❤️ Use HP potion. Set to "" to disable auto-healing
-  add_mp: "2"               # 💧 Use MP potion. Set to "" to disable auto-mana
+  aoe_skill: "s"            # 💥 AoE skill (e.g., Cleric's heal or Mage's lightning)
+  directional_attack: "d"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  teleport: ""             # 🌀 Teleport skill. Set to "" if not usable
+  jump: "z"             # 🦘 Jump key
+  add_hp: ""               # ❤️ Use HP potion. Set to "" to disable auto-healing
+  add_mp: ""               # 💧 Use MP potion. Set to "" to disable auto-mana
 
 # ────────────────
 # 💫 Buff Skill
