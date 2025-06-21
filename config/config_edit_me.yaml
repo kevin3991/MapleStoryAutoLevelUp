@@ -34,7 +34,7 @@ directional_attack:
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
 aoe_skill:
-  range_x: 700              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_x: 600              # ↔️ Try reducing if you’re hitting unreachable monsters.
   range_y: 140              # ↕️
 
 # ❤️ HEALTH MONITOR
@@ -43,3 +43,22 @@ aoe_skill:
 #   enable: False              # ✅ Set to False if using pet auto-heal.
 #   add_hp_ratio: 0.4         # ❤️ drink potion when HP is below this number
 #   add_mp_ratio: 0.5         # 💙 drink potion when MP is below this number
+
+
+camera:
+  y_start: 60     # ⬆️ Top boundary (in pixels)
+  y_end: 690      # ⬇️ Bottom boundary (in pixels)
+
+rune_solver:
+  arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
+  arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
+  arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
+  arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
+
+system:
+  fps_limit_main: 40                # 🚥 Main loop FPS – controls how fast the main thread runs
+  fps_limit_keyboard_controller: 60 # 🚥 Keyboard controller thread FPS
+  fps_limit_window_capturor: 30     # 🚥 Window capture thread FPS
+  fps_limit_route_recorder: 20      # 🚥 Route recorder FPS
+  key_debounce_interval: 1          # ⏱️ Cooldown (in seconds) between function key presses (e.g., F1, F2...)
+  show_debug_window: True           # 🐞 Show debug window (disable to save resources)
