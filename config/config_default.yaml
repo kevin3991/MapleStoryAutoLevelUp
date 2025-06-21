@@ -194,10 +194,10 @@ route:
     "255,255,127": "down"          # 🟡 Light yellow
     "0,255,127": "stop"            # 🟢 Light green
     "255,255,0": "goal"            # 🟨 Yellow
-    "255,0,127": "teleport up"     # 🌸 Pink
-    "127,0,255": "teleport down"   # 🟪 Purple
-    "0,127,0": "teleport left"     # 🟩 Dark green
-    "139,69,19": "teleport right"  # 🟫 Brown
+    # "255,0,127": "teleport up"     # 🌸 Pink
+    # "127,0,255": "teleport down"   # 🟪 Purple
+    # "0,127,0": "teleport left"     # 🟩 Dark green
+    # "139,69,19": "teleport right"  # 🟫 Brown
 
 # ────────────────────────────────
 # 🐶 Watchdog (Anti-Stuck System)
