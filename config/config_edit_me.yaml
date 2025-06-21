@@ -34,7 +34,7 @@ directional_attack:
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
 aoe_skill:
-  range_x: 450              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_x: 700              # ↔️ Try reducing if you’re hitting unreachable monsters.
   range_y: 140              # ↕️
 
 # ❤️ HEALTH MONITOR
