@@ -9,13 +9,13 @@
 
 # 🎯 KEY BINDINGS
 # Match these to your in-game keys. Uncomment once you're done.
-# key:
-#   aoe_skill: "q"            # 💥 Set to the AoE skill key. Choose a key with low cooldown.
-#   directional_attack: "w"   # ⚔️ Assign to your main spammable attack.
-#   teleport: "e"             # 🌀 Leave empty ("") if your class can’t teleport.
-#   jump: "space"             # 🦘 Set to jump. No need to change unless you use a non-standard key.
-#   add_hp: "1"               # ❤️ Assign to HP potion hotkey. Match with your potion shortcut.
-#   add_mp: "2"               # 💧 Assign to MP potion hotkey. Match with your potion shortcut.
+key:
+  aoe_skill: "s"            # 💥 AoE skill (e.g., Cleric's heal or Mage's lightning)
+  directional_attack: "d"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  teleport: ""             # 🌀 Teleport skill. Set to "" if not usable
+  jump: "z"             # 🦘 Jump key
+  add_hp: ""               # ❤️ Use HP potion. Set to "" to disable auto-healing
+  add_mp: ""               # 💧 Use MP potion. Set to "" to disable auto-mana
 
 # 🧙 BUFF SKILLS
 # Add keys for buffs you want to auto-cast. Match cooldowns with actual in-game durations.
@@ -27,15 +27,15 @@
 # Tune these by observing the debug window.
 # Smaller range -> you will fight monster in close-range combat
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
-# directional_attack:
-#   range_x: 320              # ↔️ Try reducing if you’re hitting unreachable monsters.
-#   range_y: 60               # ↕️
+directional_attack:
+  range_x: 300              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_y: 100              # ↕️
 
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
-# aoe_skill:
-#   range_x: 400              # ↔️ Try reducing if you’re hitting unreachable monsters.
-#   range_y: 160              # ↕️
+aoe_skill:
+  range_x: 700              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_y: 140              # ↕️
 
 # ❤️ HEALTH MONITOR
 # Use this to auto-drink potions at specific HP/MP thresholds.

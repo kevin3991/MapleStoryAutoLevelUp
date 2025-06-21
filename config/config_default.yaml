@@ -140,7 +140,7 @@ nametag:
 
 camera:
   y_start: 60     # ⬆️ Top boundary (in pixels)
-  y_end: 665      # ⬇️ Bottom boundary (in pixels)
+  y_end: 690      # ⬇️ Bottom boundary (in pixels)
 
 # ────────────────
 # 🧍 Character
@@ -205,10 +205,10 @@ route:
     "255,255,127": "down"          # 🟡 Light yellow
     "0,255,127": "stop"            # 🟢 Light green
     "255,255,0": "goal"            # 🟨 Yellow
-    "255,0,127": "teleport up"     # 🌸 Pink
-    "127,0,255": "teleport down"   # 🟪 Purple
-    "0,127,0": "teleport left"     # 🟩 Dark green
-    "139,69,19": "teleport right"  # 🟫 Brown
+    # "255,0,127": "teleport up"     # 🌸 Pink
+    # "127,0,255": "teleport down"   # 🟪 Purple
+    # "0,127,0": "teleport left"     # 🟩 Dark green
+    # "139,69,19": "teleport right"  # 🟫 Brown
 
 # ────────────────────────────────
 # 🐶 Watchdog (Anti-Stuck System)
@@ -261,7 +261,7 @@ rune_find:
 rune_solver:
   arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
   arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
-  arrow_box_coord: [355, 355]  # 🎯 Top-left coordinate of the first (leftmost) arrow
+  arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
   arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
                                #     ↪ If the match score of the first arrow is lower than this,
                                #     the solver assumes the rune mini-game has started
@@ -317,9 +317,9 @@ game_window:
 # Controls performance and behavior of core system threads.
 
 system:
-  fps_limit_main: 10                # 🚥 Main loop FPS – controls how fast the main thread runs
-  fps_limit_keyboard_controller: 30 # 🚥 Keyboard controller thread FPS
-  fps_limit_window_capturor: 15     # 🚥 Window capture thread FPS
-  fps_limit_route_recorder: 10      # 🚥 Route recorder FPS
+  fps_limit_main: 20                # 🚥 Main loop FPS – controls how fast the main thread runs
+  fps_limit_keyboard_controller: 40 # 🚥 Keyboard controller thread FPS
+  fps_limit_window_capturor: 30     # 🚥 Window capture thread FPS
+  fps_limit_route_recorder: 20      # 🚥 Route recorder FPS
   key_debounce_interval: 1          # ⏱️ Cooldown (in seconds) between function key presses (e.g., F1, F2...)
   show_debug_window: True           # 🐞 Show debug window (disable to save resources)
