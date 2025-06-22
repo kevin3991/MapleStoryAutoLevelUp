@@ -814,6 +814,17 @@ class MapleStoryBot:
         _, score, _ = find_pattern_sqdiff(
                         self.img_frame_gray[y0:y1, x0:x1],
                         self.img_rune_warning)
+        
+        # Draw rune warning detection box on debug window
+        draw_rectangle(
+            self.img_frame_debug, (x0, y0),
+            (y1-y0, x1-x0),
+            (0, 255, 255), f"Rune Warning ({round(score, 2)})"
+        )
+
+        # log score
+        # logger.info(f"[is_rune_warning] Rune warning score: {round(score, 2)}")
+
         if self.status == "hunting" and score < self.cfg["rune_warning"]["diff_thres"]:
             logger.info(f"[is_rune_warning] Detect rune warning on screen with score({score})")
             return True

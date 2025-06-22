@@ -50,8 +50,15 @@ aoe_skill:
 
 
 camera:
-  y_start: 50     # ⬆️ Top boundary (in pixels)
+  y_start: 60     # ⬆️ Top boundary (in pixels)
   y_end: 680      # ⬇️ Bottom boundary (in pixels)
+
+# 231*20
+# 251*40
+rune_warning:
+  top_left: [515, 216]        # 🟦 Top-left corner of the rune warning message
+  bottom_right: [766, 256]    # 🟥 Bottom-right corner of the rune warning
+  diff_thres: 0.32             # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
 
 # rune_solver:
 #   arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
@@ -66,3 +73,5 @@ system:
   fps_limit_route_recorder: 20      # 🚥 Route recorder FPS
   key_debounce_interval: 1          # ⏱️ Cooldown (in seconds) between function key presses (e.g., F1, F2...)
   show_debug_window: True           # 🐞 Show debug window (disable to save resources)
+
+auto_change_channel: ""
