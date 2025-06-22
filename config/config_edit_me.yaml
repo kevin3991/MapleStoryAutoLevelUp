@@ -11,7 +11,8 @@
 # Match these to your in-game keys. Uncomment once you're done.
 key:
   aoe_skill: "s"            # 💥 AoE skill (e.g., Cleric's heal or Mage's lightning)
-  directional_attack: "d"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  directional_attack: "s"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  # directional_attack: "d"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
   teleport: ""             # 🌀 Teleport skill. Set to "" if not usable
   jump: "z"             # 🦘 Jump key
   add_hp: ""               # ❤️ Use HP potion. Set to "" to disable auto-healing
@@ -27,14 +28,17 @@ key:
 # Tune these by observing the debug window.
 # Smaller range -> you will fight monster in close-range combat
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
+# directional_attack:
+#   range_x: 300              # ↔️ Try reducing if you’re hitting unreachable monsters.
+#   range_y: 100              # ↕️
 directional_attack:
-  range_x: 300              # ↔️ Try reducing if you’re hitting unreachable monsters.
-  range_y: 100              # ↕️
+  range_x: 140              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_y: 80              # ↕️
 
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
 aoe_skill:
-  range_x: 600              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_x: 400              # ↔️ Try reducing if you’re hitting unreachable monsters.
   range_y: 140              # ↕️
 
 # ❤️ HEALTH MONITOR
@@ -46,14 +50,14 @@ aoe_skill:
 
 
 camera:
-  y_start: 60     # ⬆️ Top boundary (in pixels)
-  y_end: 690      # ⬇️ Bottom boundary (in pixels)
+  y_start: 50     # ⬆️ Top boundary (in pixels)
+  y_end: 680      # ⬇️ Bottom boundary (in pixels)
 
-rune_solver:
-  arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
-  arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
-  arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
-  arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
+# rune_solver:
+#   arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
+#   arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
+#   arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
+#   arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
 
 system:
   fps_limit_main: 40                # 🚥 Main loop FPS – controls how fast the main thread runs
