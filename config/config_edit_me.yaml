@@ -60,11 +60,11 @@ rune_warning:
   bottom_right: [766, 256]    # 🟥 Bottom-right corner of the rune warning
   diff_thres: 0.32             # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
 
-# rune_solver:
-#   arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
-#   arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
-#   arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
-#   arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
+rune_solver:
+  arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
+  arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
+  arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
+  arrow_box_diff_thres: 0.2    # 📏 Match threshold [0.0 ~ 1.0]
 
 system:
   fps_limit_main: 40                # 🚥 Main loop FPS – controls how fast the main thread runs
