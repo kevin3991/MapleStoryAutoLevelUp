@@ -14,8 +14,12 @@ clean:
 
 run:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map fire_land_2 --monsters fire_pig,black_axe_stump --attack aoe_skill
-run-2:
+run-empty-house:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map empty_house --monsters mushroom --attack directional
+run-cloud-balcony:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map cloud_balcony --monsters brown_windup_bear,pink_windup_bear --attack directional
+run-north-forest-training-ground-2:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map north_forest_training_ground_2 --monsters green_mushroom,spike_mushroom --attack directional
 run-3:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map lost_time_1 --monsters evolved_ghost --attack directional
 run-4:
