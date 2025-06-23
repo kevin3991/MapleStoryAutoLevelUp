@@ -8,19 +8,18 @@ import random
 import argparse
 import glob
 import sys
-import pyautogui
-import pygetwindow as gw
+
 
 # Library import
 import numpy as np
 import cv2
-import yaml
 
 # Local import
 from logger import logger
 from util import find_pattern_sqdiff, draw_rectangle, screenshot, nms, \
                 load_image, get_mask, get_minimap_loc_size, get_player_location_on_minimap, \
-                is_mac, nms_matches, override_cfg, load_yaml, get_all_other_player_locations_on_minimap
+                is_mac, nms_matches, override_cfg, load_yaml, get_all_other_player_locations_on_minimap, \
+                click_in_game_window
 from KeyBoardController import KeyBoardController
 if is_mac():
     from GameWindowCapturorForMac import GameWindowCapturor
@@ -43,7 +42,7 @@ class MapleStoryBot:
         self.monster_info = [] # monster information
         self.fps = 0 # Frame per second
         self.is_first_frame = True # first frame flag
-        self.rune_detect_level = 0 # higher the level, lower the rune detect threshold
+        self.red_dot_center_prev = None # previous other player location in minimap
         # Coordinate (top-left coordinate)
         self.loc_nametag = (0, 0) # nametag location on game screen
         self.loc_minimap = (0, 0) # minimap location on game screen
@@ -52,6 +51,7 @@ class MapleStoryBot:
         self.loc_minimap_global = (0, 0) # minimap location on global map
         self.loc_player_global = (0, 0) # player location on global map
         self.loc_watch_dog = (0, 0) # watch dog location on global map
+        self.loc_rune = (0, 0) # rune location on game screen
         # Images
         self.frame = None # raw image
         self.img_frame = None # game window frame
@@ -113,10 +113,20 @@ class MapleStoryBot:
         self.img_nametag_gray = load_image(f"nametag/{args.nametag}.png", cv2.IMREAD_GRAYSCALE)
 
         # Load rune images from rune/
-        self.img_rune_warning = load_image("rune/rune_warning.png", cv2.IMREAD_GRAYSCALE)
+        rune_ver = self.cfg["rune_warning"]["language"]
+        if rune_ver == "chinese":
+            self.img_rune_warning = load_image("rune/rune_warning.png", cv2.IMREAD_GRAYSCALE)
+        elif rune_ver == "english":
+            self.img_rune_warning = load_image("rune/rune_warning_eng.png", cv2.IMREAD_GRAYSCALE)
+        else:
+            logger.error(f"Unsupported rune warning version: {rune_ver}")
+
         self.img_runes = [load_image("rune/rune_1.png"),
                           load_image("rune/rune_2.png"),
                           load_image("rune/rune_3.png"),]
+        if rune_ver == "english":
+            self.img_runes[1] = load_image("rune/rune_2_eng.png")
+
         self.img_arrows = {
             "left":
                 [load_image("rune/arrow_left_1.png"),
@@ -199,7 +209,7 @@ class MapleStoryBot:
             img_roi = img_camera
             img_nametag = self.img_nametag_gray
         else:
-            logger.error(f"Unsupported nametag detection mode: {self.cfg["nametag"]["mode"]}")
+            logger.error(f"Unsupported nametag detection mode: {self.cfg['nametag']['mode']}")
             return
         # cv2.imshow("img_roi", img_roi)
         # cv2.imshow("img_nametag", img_nametag)
@@ -275,7 +285,7 @@ class MapleStoryBot:
             self.loc_nametag = loc_nametag
 
         loc_player = (
-            self.loc_nametag[0] - self.cfg["nametag"]["offset"][0],
+            self.loc_nametag[0] + w // 2,
             self.loc_nametag[1] - self.cfg["nametag"]["offset"][1]
         )
 
@@ -649,10 +659,10 @@ class MapleStoryBot:
 
         # Debug
         # Draw attack detection range
-        draw_rectangle(
-            self.img_frame_debug, (x0, y0), (y1-y0, x1-x0),
-            (255, 0, 0), "Monster Detection Box"
-        )
+        # draw_rectangle(
+        #     self.img_frame_debug, (x0, y0), (y1-y0, x1-x0),
+        #     (255, 0, 0), "Monster Detection Box"
+        # )
 
         # Draw monsters bounding box
         for monster in monster_info:
@@ -811,6 +821,11 @@ class MapleStoryBot:
         '''
         x0, y0 = self.cfg["rune_warning"]["top_left"]
         x1, y1 = self.cfg["rune_warning"]["bottom_right"]
+
+        # Debug
+        draw_rectangle(
+            self.img_frame_debug, (x0, y0), (y1-y0, x1-x0),
+            (0, 0, 255), "")
         _, score, _ = find_pattern_sqdiff(
                         self.img_frame_gray[y0:y1, x0:x1],
                         self.img_rune_warning)
@@ -831,16 +846,15 @@ class MapleStoryBot:
         else:
             return False
 
-    def is_rune_near_player(self):
+    def update_rune_location(self):
         '''
         Checks if a rune icon is visible around the player's position.
 
         This function:
         - Uses template matching to detect the rune icon within this predefine box.
-        - Dynamically adjusts the detection threshold based on the rune detection level.
 
         Returns:
-            bool: True if a rune is found near the player, False otherwise.
+            nearest rune
         '''
         # Calculate bounding box
         h, w = self.img_frame.shape[:2]
@@ -861,7 +875,7 @@ class MapleStoryBot:
         max_rune_height = max(r.shape[0] for r in self.img_runes)
         max_rune_width  = max(r.shape[1] for r in self.img_runes)
         if (x1 - x0) < max_rune_width or (y1 - y0) < max_rune_height:
-            return False  # Skip check if box is out of range
+            return  # Skip check if box is out of range
 
         # Extract ROI near player
         img_roi = self.img_frame[y0:y1, x0:x1]
@@ -897,20 +911,24 @@ class MapleStoryBot:
 
         # Require at least 2 rune parts
         if len(good_matches) < 2:
-            return False
+            return
 
         # Horizontal: max distance between part's centers are small
         x_centers = [x0 + loc[0] + shape[1] // 2 for (_, loc, _, shape) in good_matches]
         if max(x_centers) - min(x_centers) > 10:
-            return False
+            return
 
         # Vertical: check if all Y's are strictly increasing
         ys = [y0 + loc[1] for (_, loc, _, _) in good_matches]
         if not all(ys[i] < ys[i + 1] for i in range(len(ys) - 1)):
-            return False
+            return
 
         logger.info(f"[Rune Detect] Found rune parts near player with scores:"
                     f" {[round(s, 2) for (_, _, s, _) in matches]}")
+
+        # Update rune location
+        self.loc_rune = (int(sum(x_centers) / len(x_centers)),
+                         int(sum(ys) / len(ys)))
 
         # Draw all parts on debug window
         for (i, loc, score, shape) in matches:
@@ -923,8 +941,12 @@ class MapleStoryBot:
                 text_height=0.5,
                 thickness=1
             )
+
+        # Draw rune location on debug window
+        cv2.circle(self.img_frame_debug, self.loc_rune,
+                   radius=5, color=(0, 255, 255), thickness=-1)
+
         screenshot(self.img_frame_debug, "rune_detected")
-        return True
 
     def is_in_rune_game(self):
         '''
@@ -1107,13 +1129,13 @@ class MapleStoryBot:
         # Update FPS timer
         self.t_last_frame = time.time()
 
-    def click_in_game_window(self, x, y):
-        game_window = gw.getWindowsWithTitle(self.cfg.game_window_title)[0]
-        win_left, win_top = game_window.left, game_window.top
-        pyautogui.click(win_left + x, win_top + y)
+
         
     def channel_change(self):
-        print("Start channel change process")
+        '''
+        channel_change
+        '''
+        logger.info("[channel_change] Start")
         coords = [
             (1140, 730),  # 伺服器選單按鈕
             (1140, 666),  # 頻道按鈕
@@ -1122,19 +1144,20 @@ class MapleStoryBot:
             (877, 395),  # 登入後選角色
             (888, 275),  # 確定角色
         ]
-        for i, (x, y) in enumerate(coords[:4]):
-            self.click_in_game_window(x, y)
+        window_title = self.cfg["game_window"]["title"]
+        for i, coord in enumerate(coords[:4]):
+            click_in_game_window(window_title, coord)
             time.sleep(1)
         time.sleep(25)
-        self.click_in_game_window(*coords[4])
+        click_in_game_window(window_title, coords[4])
         time.sleep(2)
-        self.click_in_game_window(*coords[5])
+        click_in_game_window(window_title, coords[5])
         self.kb.enable()
         self.kb.set_command("stop")
         time.sleep(10) #ensure if there's no lagging during log in
-        self.click_in_game_window(*coords[4])
+        click_in_game_window(window_title, coords[4])
         time.sleep(2)
-        self.click_in_game_window(*coords[5])
+        click_in_game_window(window_title, coords[5])
 
     def run_once(self):
         '''
@@ -1159,7 +1182,8 @@ class MapleStoryBot:
         # Get minimap coordinate and size on game window
         minimap_result = get_minimap_loc_size(self.img_frame)
         if minimap_result is None:
-            logger.warning("Failed to get minimap location and size.")
+            pass
+            # logger.warning("Failed to get minimap location and size.") # too verbose
         else:
             x, y, w, h = minimap_result
             self.loc_minimap = (x, y)
@@ -1199,7 +1223,7 @@ class MapleStoryBot:
 
         # Check whether "Please remove runes" warning appears on screen
         if self.is_rune_warning():
-            self.rune_detect_level = 0
+            self.loc_rune = None
             self.switch_status("finding_rune") # Stop hunting and start find runes
 
         # Get player location in game window
@@ -1226,14 +1250,14 @@ class MapleStoryBot:
             xs = [x for (x, y) in loc_other_players]
             ys = [y for (x, y) in loc_other_players]
             if len(xs) == 0 or len(ys) == 0:
-                return 
+                return
             center_x = np.mean(xs)
             center_y = np.mean(ys)
             if np.isnan(center_x) or np.isnan(center_y):
                 return
             center = (int(np.mean(xs)), int(np.mean(ys)))
             #logger.warning(f"[RedDot] Center of mass = {center}")
-            
+
             # Change channel
             if self.cfg["auto_change_channel"] == "true":
                 logger.warning("Player detected, immediately change channel.")
@@ -1254,13 +1278,13 @@ class MapleStoryBot:
                         self.kb.set_command("stop")
                         self.kb.disable()
                         time.sleep(1)
-                        self.channel_change() 
-                        self.red_dot_center_prev = None  
+                        self.channel_change()
+                        self.red_dot_center_prev = None
                         return
                 else:
                     self.red_dot_center_prev = center
         else:
-            self.red_dot_center_prev = None  
+            self.red_dot_center_prev = None
 
         # Get player location on global map
         if self.args.patrol:
@@ -1269,32 +1293,42 @@ class MapleStoryBot:
             self.loc_player_global = self.get_player_location_on_global_map()
 
         # Check whether a rune icon is near player
-        if self.status == "finding_rune" and self.is_rune_near_player():
-            self.switch_status("near_rune")
+        if self.status == "finding_rune":
+            self.update_rune_location()
+            if self.loc_rune is not None:
+                self.switch_status("near_rune")
+                logger.info(abs(self.loc_player[0] - self.loc_rune[0]))
 
         # Check whether we entered the rune mini-game
-        if self.status == "near_rune" and (not self.args.disable_control) and \
-            time.time() - self.t_last_rune_trigger > self.cfg["rune_find"]["rune_trigger_cooldown"]:
-            self.kb.set_command("stop") # stop character
-            time.sleep(0.1) # Wait for character to stop
-            self.kb.disable() # Disable kb thread during rune solving
+        if self.status == "near_rune" and (not self.args.disable_control):
+            # Update rune location
+            self.update_rune_location()
 
-            # Attempt to trigger rune
-            self.kb.press_key("up", 0.02)
-            time.sleep(1) # Wait for rune game to pop up
+            dt = time.time() - self.t_last_rune_trigger
+            dx = abs(self.loc_player[0] - self.loc_rune[0])
+            logger.info(f"[Near Rune] Distance to rune: {dx}")
 
-            # If entered the game, start solving rune
-            print("🔍 Checking if in rune game: ", self.is_in_rune_game())
-            if self.is_in_rune_game():
-                print("🔍 Entered rune game")
-                self.solve_rune() # Blocking until runes solved
-                self.rune_detect_level = 0 # reset rune detect level
-                self.switch_status("hunting")
+            # Check if close enough to trigger the rune
+            if dt > self.cfg["rune_find"]["rune_trigger_cooldown"] and \
+                dx < self.cfg["rune_find"]["rune_trigger_distance"]:
 
-            # Restore kb thread
-            self.kb.enable()
+                self.kb.set_command("stop") # stop character
+                time.sleep(0.1) # Wait for character to stop
+                self.kb.disable() # Disable kb thread during rune solving
 
-            self.t_last_rune_trigger = time.time()
+                # Attempt to trigger rune
+                self.kb.press_key("up", 0.02)
+                time.sleep(1) # Wait for rune game to pop up
+
+                # If entered the game, start solving rune
+                if self.is_in_rune_game():
+                    self.solve_rune() # Blocking until runes solved
+                    self.switch_status("hunting")
+
+                # Restore kb thread
+                self.kb.enable()
+
+                self.t_last_rune_trigger = time.time()
 
         # Get monster search box
         margin = self.cfg["monster_detect"]["search_box_margin"]
@@ -1453,8 +1487,7 @@ class MapleStoryBot:
             if not self.args.patrol and self.is_player_stuck():
                 command = self.get_random_action()
             elif command in ["up", "down", "jump right", "jump left"]:
-                pass # Don't attack or heal while character is on rope or jumping
-            # Note: HP/MP monitoring is now handled by separate HealthMonitor thread
+                pass # Don't attack while character is on rope or jumping
             elif attack_direction == "I don't care" and nearest_monster is not None and \
                 time.time() - self.t_last_attack > self.cfg["directional_attack"]["cooldown"]:
                 command = "attack"
@@ -1479,6 +1512,7 @@ class MapleStoryBot:
             # Check if finding rune timeout
             if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["timeout"]:
                 self.switch_status("resting")
+                # TODO: terminate the script
 
         elif self.status == "near_rune":
             # Stay in near_rune status for only a few seconds
