@@ -1321,6 +1321,7 @@ class MapleStoryBot:
                 time.sleep(1) # Wait for rune game to pop up
 
                 # If entered the game, start solving rune
+                logger.info("is_in_rune_game: " + str(self.is_in_rune_game()))
                 if self.is_in_rune_game():
                     self.solve_rune() # Blocking until runes solved
                     self.switch_status("hunting")

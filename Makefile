@@ -31,3 +31,5 @@ run-6:
 
 test-solve-rune:
 	$(ACTIVATE); $(PYTHON) test_solve_rune.py
+test-rune-detection:
+	$(ACTIVATE); $(PYTHON) test_rune_detection.py
