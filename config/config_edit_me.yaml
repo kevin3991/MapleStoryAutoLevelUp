@@ -72,14 +72,14 @@ rune_warning:
   diff_thres: 0.4             # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
 
 rune_detect:
-  box_width: 500              # ↔️ Width of the detection region
-  box_height: 200             # ↕️ Height of the detection region
-  diff_thres: 0.4             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
+  box_width: 700              # ↔️ Width of the detection region
+  box_height: 150             # ↕️ Height of the detection region
+  diff_thres: 0.35             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
 
 rune_find:
   timeout: 1200               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
-  near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
+  near_rune_duration: 20       # 🕒 Duration to interact with rune when a positive detection occurs
   rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
   rune_trigger_distance: 20
 
@@ -90,10 +90,10 @@ rune_solver:
   arrow_box_diff_thres: 0.32    # 📏 Match threshold [0.0 ~ 1.0]
 
 system:
-  fps_limit_main: 40                # 🚥 Main loop FPS – controls how fast the main thread runs
-  fps_limit_keyboard_controller: 60 # 🚥 Keyboard controller thread FPS
-  fps_limit_window_capturor: 30     # 🚥 Window capture thread FPS
-  fps_limit_route_recorder: 20      # 🚥 Route recorder FPS
+  fps_limit_main: 20                # 🚥 Main loop FPS – controls how fast the main thread runs
+  fps_limit_keyboard_controller: 30 # 🚥 Keyboard controller thread FPS
+  fps_limit_window_capturor: 15     # 🚥 Window capture thread FPS
+  fps_limit_route_recorder: 10      # 🚥 Route recorder FPS
   fps_limit_auto_dice_roller: 1     # 🚥 Auto rice roller FPS
   key_debounce_interval: 1          # ⏱️ Cooldown (in seconds) between function key presses (e.g., F1, F2...)
   show_debug_window: True           # 🐞 Show debug window (disable to save resources)

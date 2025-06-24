@@ -1315,6 +1315,9 @@ class MapleStoryBot:
                 
             logger.info("near: " + str(near))
 
+            self.kb.set_command("stop") # stop character
+            time.sleep(0.5) # Wait for character to stop
+
             # Check if close enough to trigger the rune
             if near:
                 self.kb.set_command("stop") # stop character
@@ -1526,6 +1529,20 @@ class MapleStoryBot:
                 # TODO: terminate the script
 
         elif self.status == "near_rune":
+            # Slow down movement in near_rune status for precise positioning
+            # Add cooldown for movement commands to make character move slower
+            if command and "walk" in command:
+                current_time = time.time()
+                if not hasattr(self, 't_last_near_rune_move'):
+                    self.t_last_near_rune_move = 0
+                
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = ""  # Clear command to stop movement
+                else:
+                    self.t_last_near_rune_move = current_time
+
             # Stay in near_rune status for only a few seconds
             if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["near_rune_duration"]:
                 self.switch_status("hunting")
