@@ -1,0 +1,22 @@
+# PyPy 專用的依賴套件
+# 注意：某些套件在 PyPy 上可能需要特殊版本
+
+# 核心套件
+opencv-python
+numpy
+pyyaml
+requests
+
+# 鍵盤和滑鼠控制 (PyPy 相容性較好)
+pyautogui
+pynput
+
+# 螢幕擷取
+mss
+
+# 平台特定套件
+windows-capture ; sys_platform == "win32"
+pyobjc-framework-Quartz ; sys_platform == "darwin"
+
+# PyPy 優化相關
+psutil  # 用於性能監控 
