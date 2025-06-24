@@ -9,13 +9,14 @@
 
 # 🎯 KEY BINDINGS
 # Match these to your in-game keys. Uncomment once you're done.
-# key:
-#   aoe_skill: "q"            # 💥 Set to the AoE skill key. Choose a key with low cooldown.
-#   directional_attack: "w"   # ⚔️ Assign to your main spammable attack.
-#   teleport: "e"             # 🌀 Leave empty ("") if your class can’t teleport.
-#   jump: "space"             # 🦘 Set to jump. No need to change unless you use a non-standard key.
-#   add_hp: "1"               # ❤️ Assign to HP potion hotkey. Match with your potion shortcut.
-#   add_mp: "2"               # 💧 Assign to MP potion hotkey. Match with your potion shortcut.
+key:
+  aoe_skill: "s"            # 💥 AoE skill (e.g., Cleric's heal or Mage's lightning)
+  # directional_attack: "s"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  directional_attack: "d"   # ⚔️ Basic directional attack (e.g., Magic Claw or throwing stars)
+  teleport: ""             # 🌀 Teleport skill. Set to "" if not usable
+  jump: "z"             # 🦘 Jump key
+  add_hp: "1"               # ❤️ Use HP potion. Set to "" to disable auto-healing
+  add_mp: "2"               # 💧 Use MP potion. Set to "" to disable auto-mana
 
 # 🧙 BUFF SKILLS
 # Add keys for buffs you want to auto-cast. Match cooldowns with actual in-game durations.
@@ -28,18 +29,71 @@
 # Smaller range -> you will fight monster in close-range combat
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
 # directional_attack:
-#   range_x: 320              # ↔️ Try reducing if you’re hitting unreachable monsters.
-#   range_y: 60               # ↕️
+#   range_x: 300              # ↔️ Try reducing if you’re hitting unreachable monsters.
+#   range_y: 100              # ↕️
+
+# 槍騎
+# directional_attack:
+#   range_x: 180              # ↔️ Try reducing if you’re hitting unreachable monsters.
+#   range_y: 80              # ↕️
+
+# 嫩寶
+directional_attack:
+  range_x: 340              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_y: 80              # ↕️
 
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
-# aoe_skill:
-#   range_x: 400              # ↔️ Try reducing if you’re hitting unreachable monsters.
-#   range_y: 160              # ↕️
+aoe_skill:
+  range_x: 400              # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_y: 140              # ↕️
 
 # ❤️ HEALTH MONITOR
 # Use this to auto-drink potions at specific HP/MP thresholds.
-# health_monitor:
-#   enable: False              # ✅ Set to False if using pet auto-heal.
-#   add_hp_ratio: 0.4         # ❤️ drink potion when HP is below this number
-#   add_mp_ratio: 0.5         # 💙 drink potion when MP is below this number
+health_monitor:
+  enable: True              # ✅ Set to False if using pet auto-heal.
+  add_hp_ratio: 0.4         # ❤️ drink potion when HP is below this number
+  add_mp_ratio: 0.5         # 💙 drink potion when MP is below this number
+
+buff_skill:
+  keys: ["f"]                # ⌨️ List of keys to cast each buff skill (e.g., ["a", "s"])
+  cooldown: [130]            # ⏱️ Cooldown time (in seconds), matches the order of `keys`
+
+camera:
+  y_start: 60     # ⬆️ Top boundary (in pixels)
+  y_end: 680      # ⬇️ Bottom boundary (in pixels)
+
+# 231*20
+# 251*40
+rune_warning:
+  language: "chinese"
+  top_left: [515, 216]        # 🟦 Top-left corner of the rune warning message
+  bottom_right: [766, 256]    # 🟥 Bottom-right corner of the rune warning
+  diff_thres: 0.4             # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
+
+rune_detect:
+  box_width: 700              # ↔️ Width of the detection region
+  box_height: 150             # ↕️ Height of the detection region
+  diff_thres: 0.35             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
+
+rune_find:
+  timeout: 1200               # ⏳ Maximum time (in seconds) to keep searching before giving up
+                              # If the timeout is reached, the bot will fallback to route_rest.png and rest.
+  near_rune_duration: 20       # 🕒 Duration to interact with rune when a positive detection occurs
+  rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
+  rune_trigger_distance: 20
+
+rune_solver:
+  arrow_box_size: 80           # 📐 Arrow icon size in pixels (e.g., 75x75 box)
+  arrow_box_interval: 170      # ↔️ Distance between arrows (horizontal spacing in pixels)
+  arrow_box_coord: [355, 365]  # 🎯 Top-left coordinate of the first (leftmost) arrow
+  arrow_box_diff_thres: 0.32    # 📏 Match threshold [0.0 ~ 1.0]
+
+system:
+  fps_limit_main: 20                # 🚥 Main loop FPS – controls how fast the main thread runs
+  fps_limit_keyboard_controller: 30 # 🚥 Keyboard controller thread FPS
+  fps_limit_window_capturor: 15     # 🚥 Window capture thread FPS
+  fps_limit_route_recorder: 10      # 🚥 Route recorder FPS
+  fps_limit_auto_dice_roller: 1     # 🚥 Auto rice roller FPS
+  key_debounce_interval: 1          # ⏱️ Cooldown (in seconds) between function key presses (e.g., F1, F2...)
+  show_debug_window: True           # 🐞 Show debug window (disable to save resources)

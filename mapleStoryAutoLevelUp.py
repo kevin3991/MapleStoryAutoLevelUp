@@ -68,6 +68,7 @@ class MapleStoryBot:
         self.t_patrol_last_attack = time.time() # Last patrol attack timer
         self.t_last_attack = time.time() # Last attack timer for cooldown
         self.t_last_rune_trigger = time.time() # Last time trigger rune
+        self.t_last_near_rune_move = time.time() # Last near_rune movement timer
         # Patrol mode
         self.is_patrol_to_left = True # Patrol direction flag
         self.patrol_turn_point_cnt = 0 # Patrol tuning back counter
@@ -714,12 +715,21 @@ class MapleStoryBot:
             None
         '''
         while self.is_in_rune_game():
+            # 先截取畫面，並且存成圖片
+            self.frame = self.capture.get_frame()
+            screenshot(self.frame, "before_solve_rune")
+            print("🔍 Before solve rune")
+
             for arrow_idx in [0,1,2,3]:
                 # Get lastest game screen frame buffer
                 self.frame = self.capture.get_frame()
+                screenshot(self.frame, f"solving_rune_{arrow_idx}")
+                print("🔍 Solving rune", arrow_idx)
+
                 # Resize game screen to 1296x759
                 self.img_frame = cv2.resize(self.frame, (1296, 759),
                                             interpolation=cv2.INTER_NEAREST)
+
 
                 # Crop arrow detection box
                 x0, y0 = self.cfg["rune_solver"]["arrow_box_coord"]
@@ -736,6 +746,8 @@ class MapleStoryBot:
                         _, score, _ = find_pattern_sqdiff(
                                         img_roi, img_arrow,
                                         mask=get_mask(img_arrow, (0, 255, 0)))
+
+                        print("🔍 Arrow", arrow_idx, "direction", direction, "score", score)
                         if score < best_score:
                             best_score = score
                             best_direction = direction
@@ -752,7 +764,7 @@ class MapleStoryBot:
                 cv2.waitKey(1)
 
                 # For logging
-                screenshot(self.img_frame_debug, "solve_rune")
+                screenshot(self.img_frame_debug, f"solve_rune_{arrow_idx}")
 
                 # Press the key for 0.5 second
                 if not self.args.disable_control:
@@ -818,6 +830,17 @@ class MapleStoryBot:
         _, score, _ = find_pattern_sqdiff(
                         self.img_frame_gray[y0:y1, x0:x1],
                         self.img_rune_warning)
+        
+        # Draw rune warning detection box on debug window
+        draw_rectangle(
+            self.img_frame_debug, (x0, y0),
+            (y1-y0, x1-x0),
+            (0, 255, 255), f"Rune Warning ({round(score, 2)})"
+        )
+
+        # log score
+        # logger.info(f"[is_rune_warning] Rune warning score: {round(score, 2)}")
+
         if self.status == "hunting" and score < self.cfg["rune_warning"]["diff_thres"]:
             logger.info(f"[is_rune_warning] Detect rune warning on screen with score({score})")
             return True
@@ -853,7 +876,7 @@ class MapleStoryBot:
         max_rune_height = max(r.shape[0] for r in self.img_runes)
         max_rune_width  = max(r.shape[1] for r in self.img_runes)
         if (x1 - x0) < max_rune_width or (y1 - y0) < max_rune_height:
-            return  # Skip check if box is out of range
+            return
 
         # Extract ROI near player
         img_roi = self.img_frame[y0:y1, x0:x1]
@@ -1284,21 +1307,32 @@ class MapleStoryBot:
 
             dt = time.time() - self.t_last_rune_trigger
             dx = abs(self.loc_player[0] - self.loc_rune[0])
+            logger.info("dt: " + str(dt))
             logger.info(f"[Near Rune] Distance to rune: {dx}")
+            logger.info("is_in_rune_game: " + str(self.is_in_rune_game()))
+
+            near = dt > self.cfg["rune_find"]["rune_trigger_cooldown"] and \
+                dx < self.cfg["rune_find"]["rune_trigger_distance"]
+                
+            logger.info("near: " + str(near))
 
             # Check if close enough to trigger the rune
-            if dt > self.cfg["rune_find"]["rune_trigger_cooldown"] and \
-                dx < self.cfg["rune_find"]["rune_trigger_distance"]:
-
+            if near:
                 self.kb.set_command("stop") # stop character
-                time.sleep(0.1) # Wait for character to stop
+                time.sleep(0.5) # Wait for character to stop
                 self.kb.disable() # Disable kb thread during rune solving
-
-                # Attempt to trigger rune
-                self.kb.press_key("up", 0.02)
+                time.sleep(0.5) # Wait for character to stop
+                
+                # Attempt to trigger rune (在 disable 之前)
+                logger.info(f"遊戲視窗是否活動: {self.kb.is_game_window_active()}")
+                logger.info("準備觸發 up 鍵...")
+                self.kb.press_key("up", 0.2)
+                logger.info("up 鍵已觸發")
+                
                 time.sleep(1) # Wait for rune game to pop up
 
                 # If entered the game, start solving rune
+                logger.info("is_in_rune_game: " + str(self.is_in_rune_game()))
                 if self.is_in_rune_game():
                     self.solve_rune() # Blocking until runes solved
                     self.switch_status("hunting")
@@ -1493,6 +1527,19 @@ class MapleStoryBot:
                 # TODO: terminate the script
 
         elif self.status == "near_rune":
+            # Slow down movement in near_rune status for precise positioning
+            # Add cooldown for movement commands to make character move slower
+            logger.info("near_rune command: " + str(command))
+            if command and "walk" in command:
+                current_time = time.time()
+                
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = "stop"  # Force character to stop moving
+                else:
+                    self.t_last_near_rune_move = current_time
+
             # Stay in near_rune status for only a few seconds
             if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["near_rune_duration"]:
                 self.switch_status("hunting")

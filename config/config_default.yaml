@@ -46,8 +46,8 @@ buff_skill:
 # ────────────────
 # 🗡️ Directional Attack
 # ────────────────
-# Directional attacks are basic skills that rely on the character’s facing direction.
-# Examples include: Mage’s Magic Claw, Thief’s dart throw, or even a snail shell toss.
+# Directional attacks are basic skills that rely on the character's facing direction.
+# Examples include: Mage's Magic Claw, Thief's dart throw, or even a snail shell toss.
 # These settings are applied when launching the program with: --attack "directional_attack"
 
 directional_attack:
@@ -60,7 +60,7 @@ directional_attack:
 # 💥 AoE Skill
 # ────────────────
 # AoE (Area of Effect) skills hit enemies no matter which direction the chrarcter is facing.
-# Examples: Cleric’s Heal, Mage’s Lightning Bolt
+# Examples: Cleric's Heal, Mage's Lightning Bolt
 
 aoe_skill:
   range_x: 400               # ↔️ Horizontal skill range (in pixels)
@@ -245,13 +245,15 @@ rune_detect:
 # ────────────────
 # 🧭 Rune-Finding Behavior
 # ────────────────
-# Defines the bot’s strategy for searching and interacting with the rune.
+# Defines the bot's strategy for searching and interacting with the rune.
 rune_find:
   timeout: 1200               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
   rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
   rune_trigger_distance: 20
+  movement_cooldown: 0.5       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
+                               #     Higher values = slower movement (useful for precise positioning near rune)
 
 # ─────────────────────────────
 # 🧩 Rune Mini-Game Solver
@@ -272,7 +274,7 @@ rune_solver:
 # 🗺️ Mini-Map
 # ─────────────────────────────
 # The minimap appears in the top-left corner of the game window.
-# It is used to estimate the player’s current location in the world.
+# It is used to estimate the player's current location in the world.
 
 minimap:
   player_color: [136, 255, 255]   # 🟡 BGR value of the yellow player dot on the minimap

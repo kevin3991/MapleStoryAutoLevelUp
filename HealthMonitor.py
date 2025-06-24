@@ -208,7 +208,7 @@ class HealthMonitor:
                     current_time - self.last_mp_time > self.cfg["health_monitor"]["add_mp_cooldown"]):
                     self._add_mp()
                     self.last_mp_time = current_time
-                    logger.info(f"[Health Monitor]: Auto MP triggered, MP: {self.mp_ratio*100:.1f}%")
+                    # logger.info(f"[Health Monitor]: Auto MP triggered, MP: {self.mp_ratio*100:.1f}%")
 
                 # Sleep to avoid excessive CPU usage
                 self.limit_fps()
