@@ -68,6 +68,7 @@ class MapleStoryBot:
         self.t_patrol_last_attack = time.time() # Last patrol attack timer
         self.t_last_attack = time.time() # Last attack timer for cooldown
         self.t_last_rune_trigger = time.time() # Last time trigger rune
+        self.t_last_near_rune_move = time.time() # Last near_rune movement timer
         # Patrol mode
         self.is_patrol_to_left = True # Patrol direction flag
         self.patrol_turn_point_cnt = 0 # Patrol tuning back counter
@@ -1315,9 +1316,6 @@ class MapleStoryBot:
                 
             logger.info("near: " + str(near))
 
-            self.kb.set_command("stop") # stop character
-            time.sleep(0.5) # Wait for character to stop
-
             # Check if close enough to trigger the rune
             if near:
                 self.kb.set_command("stop") # stop character
@@ -1531,15 +1529,14 @@ class MapleStoryBot:
         elif self.status == "near_rune":
             # Slow down movement in near_rune status for precise positioning
             # Add cooldown for movement commands to make character move slower
+            logger.info("near_rune command: " + str(command))
             if command and "walk" in command:
                 current_time = time.time()
-                if not hasattr(self, 't_last_near_rune_move'):
-                    self.t_last_near_rune_move = 0
-                
+d                
                 # Use configurable cooldown from config file
                 cooldown = self.cfg["rune_find"]["movement_cooldown"]
                 if current_time - self.t_last_near_rune_move < cooldown:
-                    command = ""  # Clear command to stop movement
+                    command = "stop"  # Force character to stop moving
                 else:
                     self.t_last_near_rune_move = current_time
 
