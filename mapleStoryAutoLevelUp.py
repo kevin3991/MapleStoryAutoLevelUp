@@ -875,7 +875,7 @@ class MapleStoryBot:
         max_rune_height = max(r.shape[0] for r in self.img_runes)
         max_rune_width  = max(r.shape[1] for r in self.img_runes)
         if (x1 - x0) < max_rune_width or (y1 - y0) < max_rune_height:
-            return  # Skip check if box is out of range
+            return
 
         # Extract ROI near player
         img_roi = self.img_frame[y0:y1, x0:x1]
@@ -1321,9 +1321,13 @@ class MapleStoryBot:
                 time.sleep(0.5) # Wait for character to stop
                 self.kb.disable() # Disable kb thread during rune solving
                 time.sleep(0.5) # Wait for character to stop
-
-                # Attempt to trigger rune
-                self.kb.press_key("up", 0.02)
+                
+                # Attempt to trigger rune (在 disable 之前)
+                logger.info(f"遊戲視窗是否活動: {self.kb.is_game_window_active()}")
+                logger.info("準備觸發 up 鍵...")
+                self.kb.press_key("up", 0.2)
+                logger.info("up 鍵已觸發")
+                
                 time.sleep(1) # Wait for rune game to pop up
 
                 # If entered the game, start solving rune
