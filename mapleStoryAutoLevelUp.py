@@ -1532,7 +1532,7 @@ class MapleStoryBot:
             logger.info("near_rune command: " + str(command))
             if command and "walk" in command:
                 current_time = time.time()
-d                
+                
                 # Use configurable cooldown from config file
                 cooldown = self.cfg["rune_find"]["movement_cooldown"]
                 if current_time - self.t_last_near_rune_move < cooldown:

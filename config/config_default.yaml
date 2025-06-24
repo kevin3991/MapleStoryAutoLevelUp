@@ -252,7 +252,7 @@ rune_find:
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
   rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
   rune_trigger_distance: 20
-  movement_cooldown: 0.6       # d🐌 Cooldown (in seconds) between movement commands in near_rune status
+  movement_cooldown: 0.5       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
                                #     Higher values = slower movement (useful for precise positioning near rune)
 
 # ─────────────────────────────
