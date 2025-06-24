@@ -1306,15 +1306,21 @@ class MapleStoryBot:
 
             dt = time.time() - self.t_last_rune_trigger
             dx = abs(self.loc_player[0] - self.loc_rune[0])
+            logger.info("dt: " + str(dt))
             logger.info(f"[Near Rune] Distance to rune: {dx}")
+            logger.info("is_in_rune_game: " + str(self.is_in_rune_game()))
+
+            near = dt > self.cfg["rune_find"]["rune_trigger_cooldown"] and \
+                dx < self.cfg["rune_find"]["rune_trigger_distance"]
+                
+            logger.info("near: " + str(near))
 
             # Check if close enough to trigger the rune
-            if dt > self.cfg["rune_find"]["rune_trigger_cooldown"] and \
-                dx < self.cfg["rune_find"]["rune_trigger_distance"]:
-
+            if near:
                 self.kb.set_command("stop") # stop character
-                time.sleep(0.1) # Wait for character to stop
+                time.sleep(0.5) # Wait for character to stop
                 self.kb.disable() # Disable kb thread during rune solving
+                time.sleep(0.5) # Wait for character to stop
 
                 # Attempt to trigger rune
                 self.kb.press_key("up", 0.02)
