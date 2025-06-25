@@ -125,9 +125,9 @@ rune_detect:
 rune_find:
   timeout: 1200               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
-  near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
+  near_rune_duration: 20       # 🕒 Duration to interact with rune when a positive detection occurs
   rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
-  rune_trigger_distance: 24
+  rune_trigger_distance: 30
   long_movement_cooldown: 0.8       # 🐌 Cooldown (in seconds) between movement commands in finding_rune status
   movement_cooldown: 1.4       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
                                #     Higher values = slower movement (useful for precise positioning near rune)
