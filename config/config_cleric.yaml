@@ -13,9 +13,33 @@ key:
   aoe_skill: "s"            # 💥 Set to the AoE skill key. Choose a key with low cooldown.
   directional_attack: "d"   # ⚔️ Assign to your main spammable attack.
   teleport: ""             # 🌀 Leave empty ("") if your class can’t teleport.
-  jump: "a"             # 🦘 Set to jump. No need to change unless you use a non-standard key.
+  jump: "z"             # 🦘 Set to jump. No need to change unless you use a non-standard key.
   add_hp: "1"               # ❤️ Assign to HP potion hotkey. Match with your potion shortcut.
   add_mp: "2"               # 💧 Assign to MP potion hotkey. Match with your potion shortcut.
+
+# ────────────────
+# 🌀 Mage Teleport
+# ────────────────
+# This feature lets Mages use teleport to move faster while walking.
+# ⚠️ Still experimental! Enabling it may cause route-following issues.
+
+teleport:
+  is_use_teleport_to_walk: False  # ✅ Use teleport while walking (may cause inaccurate pathing)
+  cooldown: 1                     # ⏱️ Teleport skill cooldown (in seconds)
+
+# ────────────────
+# 🧙‍♂️ Edge Teleport
+# ────────────────
+# When your character approaches the edge of a platform,
+# this feature triggers a teleport (for Mages) to prevent falling.
+# If your character isn't a Mage, it will perform a jump instead.
+
+edge_teleport:
+  enable: False                 # ✅ Enable or disable this feature
+  trigger_box_width: 20        # ↔️ Width of the edge detection box (in pixels)
+  trigger_box_height: 10       # ↕️ Height of the edge detection box (in pixels)
+  color_code: [255, 127, 127]  # 🎨 RGB color code to represent platform edge
+
 
 # 🧙 BUFF SKILLS
 # Add keys for buffs you want to auto-cast. Match cooldowns with actual in-game durations.
