@@ -68,6 +68,8 @@ class MapleStoryBot:
         self.t_patrol_last_attack = time.time() # Last patrol attack timer
         self.t_last_attack = time.time() # Last attack timer for cooldown
         self.t_last_rune_trigger = time.time() # Last time trigger rune
+        self.t_last_near_rune_move = time.time() # Last movement timer in near_rune status
+        self.is_finding_rune_moving = False # Track movement state in finding_rune status
         # Patrol mode
         self.is_patrol_to_left = True # Patrol direction flag
         self.patrol_turn_point_cnt = 0 # Patrol tuning back counter
@@ -1491,6 +1493,18 @@ class MapleStoryBot:
             if self.is_player_stuck():
                 command = self.get_random_action()
 
+            logger.info("finding_rune command: " + str(command))
+
+            if command and "walk" in command:
+                current_time = time.time()
+
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["long_movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = "stop"  # Force character to stop moving
+                else:
+                    self.t_last_near_rune_move = current_time
+
             # If the HP is reduced switch to hurting (other player probably help solved the rune)
             if time.time() - self.health_monitor.last_hp_reduce_time < 3:
                 self.switch_status("hunting")
@@ -1501,6 +1515,23 @@ class MapleStoryBot:
                 # TODO: terminate the script
 
         elif self.status == "near_rune":
+            # Slow down movement in near_rune status for precise positioning
+            # Add cooldown for movement commands to make character move slower
+            logger.info("near_rune command: " + str(command))
+            if command == "stop":
+                self.t_last_near_rune_move = time.time()
+                return
+
+            if command and "walk" in command:
+                current_time = time.time()
+
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = "stop"  # Force character to stop moving
+                else:
+                    self.t_last_near_rune_move = current_time
+            
             # Stay in near_rune status for only a few seconds
             if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["near_rune_duration"]:
                 self.switch_status("hunting")
