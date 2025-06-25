@@ -114,7 +114,7 @@ rune_warning:
 # This detects the glowing purple rune symbol on screen.
 # The box determines how big of a region to search in the game screen.
 rune_detect:
-  box_width: 700              # ↔️ Width of the detection region
+  box_width: 350              # ↔️ Width of the detection region
   box_height: 150             # ↕️ Height of the detection region
   diff_thres: 0.25             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
 
