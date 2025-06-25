@@ -12,7 +12,7 @@
 key:
   aoe_skill: "s"            # 💥 Set to the AoE skill key. Choose a key with low cooldown.
   directional_attack: "d"   # ⚔️ Assign to your main spammable attack.
-  teleport: "space"             # 🌀 Leave empty ("") if your class can’t teleport.
+  teleport: "a"             # 🌀 Leave empty ("") if your class can’t teleport.
   jump: "z"             # 🦘 Set to jump. No need to change unless you use a non-standard key.
   add_hp: "s"               # ❤️ Assign to HP potion hotkey. Match with your potion shortcut.
   add_mp: "2"               # 💧 Assign to MP potion hotkey. Match with your potion shortcut.
@@ -85,7 +85,7 @@ buff_skill:
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
 directional_attack:
   range_x: 320              # ↔️ Try reducing if you’re hitting unreachable monsters.
-  range_y: 60               # ↕️
+  range_y: 90               # ↕️
 
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
@@ -102,8 +102,8 @@ aoe_skill:
 # Cleric use skill to heal; therefore, need to set force_heal to False
 health_monitor:
   enable: True              # ✅ Set to False if using pet auto-heal.
-  force_heal: False          # 🛡️ Heal first — stop attacking until HP is restored
-  add_hp_ratio: 0.6         # ❤️ drink potion when HP is below this number
+  force_heal: True          # 🛡️ Heal first — stop attacking until HP is restored
+  add_hp_ratio: 0.7         # ❤️ drink potion when HP is below this number
   add_mp_ratio: 0.5         # 💙 drink potion when MP is below this number
 
 
@@ -125,7 +125,7 @@ rune_warning:
 rune_detect:
   box_width: 350              # ↔️ Width of the detection region
   box_height: 150             # ↕️ Height of the detection region
-  diff_thres: 0.25             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
+  diff_thres: 0.2             # 📏 Match threshold [0.0 ~ 1.0], higher = stricter match
 
 # ────────────────
 # 🧭 Rune-Finding Behavior
