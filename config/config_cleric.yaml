@@ -23,7 +23,7 @@ key:
 # "": Off
 # "true": Change channel once other player is detected
 # "pixel": Change channel once other player move set pixels in other_player_move_pixel
-auto_change_channel: "true"
+auto_change_channel: "pixel"
 other_player_move_pixel: 10  # only work when auto_change_channel == "pixel" 
 
 nametag:
@@ -138,7 +138,7 @@ rune_detect:
 # ────────────────
 # Defines the bot's strategy for searching and interacting with the rune.
 rune_find:
-  timeout: 2               # ⏳ Maximum time (in seconds) to keep searching before giving up
+  timeout: 20               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
   timeout_action: "change_channel" # "go_home"
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs

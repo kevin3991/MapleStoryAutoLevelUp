@@ -72,6 +72,7 @@ class MapleStoryBot:
         self.t_last_attack = time.time() # Last attack timer for cooldown
         self.t_last_rune_trigger = time.time() # Last time trigger rune
         self.t_last_near_rune_move = time.time() # Last movement timer in near_rune status
+        self.t_rune_finding_start = 0 # Start time when entering finding_rune status (0 = not started)
         self.is_finding_rune_moving = False # Track movement state in finding_rune status
         # Patrol mode
         self.is_patrol_to_left = True # Patrol direction flag
@@ -771,6 +772,15 @@ class MapleStoryBot:
         logger.info(f"[switch_status] From {self.status}({t_elapsed} sec) to {new_status}.")
         self.status = new_status
         self.t_last_switch_status = time.time()
+        
+        # Reset rune finding timer when entering finding_rune status
+        if new_status == "finding_rune":
+            # Only reset if timer was cleared (0) or not set
+            if self.t_rune_finding_start == 0:
+                self.t_rune_finding_start = time.time()
+                logger.info(f"[switch_status] Reset rune finding timer")
+            else:
+                logger.info(f"[switch_status] Rune finding timer already active, not resetting")
 
     def get_img_frame(self):
         '''
@@ -1260,6 +1270,12 @@ class MapleStoryBot:
         time.sleep(5)
         # self.ensure_is_in_party() # Make sure player is in party
 
+        self.switch_status("hunting")
+        
+        # Clear rune finding timer after channel change
+        self.t_rune_finding_start = 0
+        logger.info("[Channel Change] Channel changed, cleared rune finding timer")
+
     def terminate_threads(self):
         '''
         terminate_and_wait_threads
@@ -1461,6 +1477,9 @@ class MapleStoryBot:
                 if self.is_in_rune_game():
                     self.solve_rune() # Blocking until runes solved
                     self.switch_status("hunting")
+                    # Clear rune finding timer after successful rune solving
+                    self.t_rune_finding_start = 0
+                    logger.info("[Rune] Rune solved successfully, cleared rune finding timer")
 
                 # Restore kb thread
                 self.kb.enable()
@@ -1664,9 +1683,12 @@ class MapleStoryBot:
                 self.switch_status("hunting")
 
             # Check if finding rune timeout
-            if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["timeout"]:
+            diff_timeout = time.time() - self.t_rune_finding_start
+            logger.info(f"diff_timeout: {diff_timeout}")
+            if diff_timeout > self.cfg["rune_find"]["timeout"]:
                 if self.cfg["rune_find"]["timeout_action"] == "change_channel":
                     # Change channel to avoid rune
+                    logger.info("Change channel to avoid rune")
                     self.channel_change()
                 else:
                     # Return home
