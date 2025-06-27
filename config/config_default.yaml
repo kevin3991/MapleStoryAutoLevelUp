@@ -160,8 +160,8 @@ nametag:
 # This excludes the game's UI and title bar.
 
 camera:
-  y_start: 60     # ⬆️ Top boundary (in pixels)
-  y_end: 665      # ⬇️ Bottom boundary (in pixels)
+  y_start: 50     # ⬆️ Top boundary (in pixels)
+  y_end: 755      # ⬇️ Bottom boundary (in pixels)
 
 # ────────────────
 # 🧍 Character
@@ -248,9 +248,10 @@ watchdog:
 # Detects the "Please remove the rune" message on screen.
 # When this warning appears, the bot will pause combat and start searching for the rune instead.
 rune_warning:
-  top_left: [513, 196]        # 🟦 Top-left corner of the rune warning message
-  bottom_right: [768, 236]    # 🟥 Bottom-right corner of the rune warning
-  diff_thres: 0.2             # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
+  top_left: [513, 196]            # 🟦 Top-left corner of the rune warning message
+  bottom_right: [768, 236]        # 🟥 Bottom-right corner of the rune warning
+  diff_thres: 0.2                 # 📏 Matching threshold [0.0 ~ 1.0], higher = stricter match
+  redirect_change_channel: True  # 🔄 Redirect to change channel when rune warning is detected
 
 # ────────────────
 # ✨ Rune Detection Box

@@ -1118,8 +1118,8 @@ class MapleStoryBot:
         '''
         get_random_action - pick a random action except 'up' and teleport command
         '''
-        # Exclude the 'up' action
-        actions = [v for k, v in self.color_code.items() if v != 'up' and ('teleport' not in v)]
+        # Exclude the 'up' and 'down' action
+        actions = [v for k, v in self.color_code.items() if v != 'up' and v != 'down' and ('teleport' not in v)]
         action = random.choice(actions)
         logger.warning(f"Perform random action: {action}")
         return action

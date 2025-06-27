@@ -27,6 +27,7 @@ auto_change_channel: "true"
 other_player_move_pixel: 10  # only work when auto_change_channel == "pixel" 
 
 nametag:
+  enable: True
   # 🧪 Comparison mode for matching the nametag:
   #   - "grayscale": match using grayscale image
   #   - "white_mask": match using binarized image
@@ -137,8 +138,8 @@ rune_find:
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
   rune_trigger_cooldown: 0.3    # 🕒 Cooldown for 'up' key rune trigger
 
-  long_movement_cooldown: 0.4       # 🐌 Cooldown (in seconds) between movement commands in finding_rune status
-  movement_cooldown: 1       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
+  long_movement_cooldown: 0.3       # 🐌 Cooldown (in seconds) between movement commands in finding_rune status
+  movement_cooldown: 0.5       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
                                #     Higher values = slower movement (useful for precise positioning near rune)
 
 
