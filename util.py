@@ -19,6 +19,10 @@ import yaml
 import pyautogui
 import pygetwindow as gw
 
+# Configure PyAutoGUI to prevent fail-safe issues
+pyautogui.FAILSAFE = False  # Disable fail-safe to prevent exceptions during automation
+pyautogui.PAUSE = 0  # Remove delay between actions
+
 # macOS specific import
 if platform.system() == 'Darwin':
     import Quartz
@@ -508,6 +512,11 @@ def click_in_game_window(window_title, coord):
     '''
     Mouse click on a game window coordinate
     '''
+
+    # If mac then coord / 2 and y position + 3
+    if is_mac():
+        coord = (coord[0] // 2, coord[1] // 2 + 10)
+
     if is_mac():
         # macOS implementation using Quartz
         region = get_window_region_mac(window_title)
@@ -521,7 +530,19 @@ def click_in_game_window(window_title, coord):
         game_window = gw.getWindowsWithTitle(window_title)[0]
         win_left, win_top = game_window.left, game_window.top
     
+    logger.info(f"win_left: {win_left}")
+    logger.info(f"win_top: {win_top}")
+    logger.info(f"width: {region['width']}")
+    logger.info(f"height: {region['height']}")
+
+    logger.info(f"[click_in_game_window] {window_title} {coord}")
+    # win_left + coord[0]
+    logger.info(f"win_left + coord[0]: {win_left + coord[0]}")
+    # win_top + coord[1]
+    logger.info(f"win_top + coord[1]: {win_top + coord[1]}")
+
     pyautogui.click(win_left + coord[0], win_top + coord[1])
+    logger.info(f"clicked")
 
 def send_email(email_addr, password,
                to, subject, body, attachment_path):

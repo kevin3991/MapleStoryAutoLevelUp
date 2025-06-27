@@ -50,6 +50,11 @@ nametag:
   # the nametag will be split vertically and matched in smaller parts.
   split_width: 30  # in pixels — width of each vertical split
 
+
+camera:
+  y_start: 60     # ⬆️ Top boundary (in pixels)
+  y_end: 665      # ⬇️ Bottom boundary (in pixels)
+
 # ────────────────
 # 🌀 Mage Teleport
 # ────────────────
@@ -133,7 +138,7 @@ rune_detect:
 # ────────────────
 # Defines the bot's strategy for searching and interacting with the rune.
 rune_find:
-  timeout: 3               # ⏳ Maximum time (in seconds) to keep searching before giving up
+  timeout: 2               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
   timeout_action: "change_channel" # "go_home"
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
