@@ -16,7 +16,7 @@ run-fire-land-2:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map fire_land_2 --monsters fire_pig,black_axe_stump --attack directional --cfg=gun
 run-ant-cave-2:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map ant_cave_2 --monsters spike_mushroom,zombie_mushroom --attack directional --cfg=gun
-run-cloud_balcony:
+run-cloud-balcony:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map cloud_balcony --monsters brown_windup_bear,pink_windup_bear --attack directional --cfg=gun
 run-north-forest-training-ground-2:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map north_forest_training_ground_2 --monsters green_mushroom,spike_mushroom --attack directional --cfg=gun
