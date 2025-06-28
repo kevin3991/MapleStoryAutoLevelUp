@@ -1281,7 +1281,7 @@ class MapleStoryBot:
         time.sleep(2)
         click_in_game_window(window_title, coords[5])
         time.sleep(5)
-        # self.ensure_is_in_party() # Make sure player is in party
+        self.ensure_is_in_party() # Make sure player is in party
 
         self.switch_status("hunting")
         
