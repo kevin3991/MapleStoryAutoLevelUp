@@ -213,8 +213,9 @@ class KeyBoardController():
                 pyautogui.keyUp("down")
 
             # Check if is needed to force health
-            if self.is_need_force_heal and \
-                not self.command in ["up", "down", "jump right", "jump left"]:
+            # if self.is_need_force_heal and \
+            #     not self.command in ["up", "down", "jump right", "jump left"]:
+            if self.is_need_force_heal:
                 self.command = "add hp"
 
             if self.command == "walk left":

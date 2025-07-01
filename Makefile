@@ -26,3 +26,5 @@ run-north-forest-training-ground-8:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map north_forest_training_ground_8 --monsters wind_single_eye_beast --attack directional --cfg=cleric
 run-monkey-swamp-3:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map monkey_swamp_3 --monsters angel_monkey --attack aoe_skill --cfg=cleric
+run-the-path-of-time-1-for-mage:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map the_path_of_time_1_for_mage --monsters evolved_ghost --attack aoe_skill --cfg=cleric
