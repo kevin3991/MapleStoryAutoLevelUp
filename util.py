@@ -19,12 +19,22 @@ import yaml
 import pyautogui
 import pygetwindow as gw
 
+<<<<<<< HEAD
+# Configure PyAutoGUI to prevent fail-safe issues
+pyautogui.FAILSAFE = False  # Disable fail-safe to prevent exceptions during automation
+pyautogui.PAUSE = 0  # Remove delay between actions
+
+# macOS specific import
+if platform.system() == 'Darwin':
+    import Quartz
+=======
 # macOS specific import
 if platform.system() == 'Darwin':
     import Quartz
 else:
     import win32gui
     import win32con
+>>>>>>> main
 
 # Local import
 from logger import logger
@@ -419,7 +429,6 @@ def get_all_other_player_locations_on_minimap(img_minimap, red_bgr=(0, 0, 255)):
             logger.debug(f"Found {len(coords)} red pixels with tolerance {tolerance}")
             logger.debug(f"Color range: {lower_bgr} to {upper_bgr}")
             return [tuple(pt[0]) for pt in coords]  # List of (x, y)
-
     # 如果所有容錯範圍都檢測不到，記錄調試信息
     logger.debug(f"Red dot detection failed with all tolerances: {tolerances}")
     return []
@@ -574,7 +583,6 @@ def get_window_region_mac(window_title):
                 "height": int(bounds.get('Height', 0))
             }
     return None
-
 
 def click_in_game_window(window_title, coord):
     '''
