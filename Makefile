@@ -26,3 +26,5 @@ run-north-forest-training-ground-8:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map north_forest_training_ground_8 --monsters wind_single_eye_beast --attack directional --cfg=gun
 run-monkey-swamp-3:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map monkey_swamp_3 --monsters angel_monkey --attack aoe_skill --cfg=gun
+run-garden-of-red-2:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map garden_of_red_2 --monsters red_cellion --attack directional --cfg=gun
