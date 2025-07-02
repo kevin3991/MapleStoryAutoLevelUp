@@ -79,6 +79,7 @@ class MapleStoryBot:
         self.t_last_rune_trigger = time.time() # Last time trigger rune
         self.t_rune_finding_start = 0 # Start time of rune finding. Reset when 'channel_change' and 'solve_rune'.
         self.t_last_minimap_update = time.time()
+        self.t_last_near_rune_move = time.time() # Last movement timer in near_rune status
         # Patrol mode
         self.is_patrol_to_left = True # Patrol direction flag
         self.patrol_turn_point_cnt = 0 # Patrol tuning back counter
@@ -838,6 +839,15 @@ class MapleStoryBot:
         logger.info(f"[switch_status] From {self.status}({t_elapsed} sec) to {new_status}.")
         self.status = new_status
         self.t_last_switch_status = time.time()
+        
+        # Reset rune finding timer when entering finding_rune status
+        if new_status == "finding_rune":
+            # Only reset if timer was cleared (0) or not set
+            if self.t_rune_finding_start == 0:
+                self.t_rune_finding_start = time.time()
+                logger.info(f"[switch_status] Reset rune finding timer")
+            else:
+                logger.info(f"[switch_status] Rune finding timer already active, not resetting")
 
     def get_img_frame(self):
         '''
@@ -1825,6 +1835,18 @@ class MapleStoryBot:
             if self.is_player_stuck():
                 command = self.get_random_action()
 
+            logger.info("finding_rune command: " + str(command))
+
+            if command and "walk" in command:
+                current_time = time.time()
+
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["long_movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = "stop"  # Force character to stop moving
+                else:
+                    self.t_last_near_rune_move = current_time
+
             # If the HP is reduced switch to hurting (other player probably help solved the rune)
             if  time.time() - self.health_monitor.t_last_hp_reduce < 3 and \
                 time.time() - self.t_last_switch_status > 3:
@@ -1836,6 +1858,7 @@ class MapleStoryBot:
             if diff_timeout > self.cfg["rune_find"]["timeout"]:
                 if self.cfg["rune_find"]["timeout_action"] == "change_channel":
                     # Change channel to avoid rune
+                    logger.info("Change channel to avoid rune")
                     self.channel_change()
                 else:
                     # Return home
@@ -1844,6 +1867,23 @@ class MapleStoryBot:
                     self.kb.is_terminated = True
 
         elif self.status == "near_rune":
+            # Slow down movement in near_rune status for precise positioning
+            # Add cooldown for movement commands to make character move slower
+            logger.info("near_rune command: " + str(command))
+            if command == "stop":
+                self.t_last_near_rune_move = time.time()
+                return
+
+            if command and "walk" in command:
+                current_time = time.time()
+
+                # Use configurable cooldown from config file
+                cooldown = self.cfg["rune_find"]["movement_cooldown"]
+                if current_time - self.t_last_near_rune_move < cooldown:
+                    command = "stop"  # Force character to stop moving
+                else:
+                    self.t_last_near_rune_move = current_time
+            
             # Stay in near_rune status for only a few seconds
             if time.time() - self.t_last_switch_status > self.cfg["rune_find"]["near_rune_duration"]:
                 self.switch_status("hunting")
