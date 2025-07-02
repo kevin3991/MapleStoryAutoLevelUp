@@ -292,10 +292,6 @@ rune_find:
   rune_trigger_distance_x: 20    # only press 'up' when player distance(in pixel) to the rune is close enough.
   rune_trigger_distance_y: 200
 
-  long_movement_cooldown: 0.3       # 🐌 Cooldown (in seconds) between movement commands in finding_rune status
-  movement_cooldown: 1       # 🐌 Cooldown (in seconds) between movement commands in near_rune status
-                               #     Higher values = slower movement (useful for precise positioning near rune)
-
 # ─────────────────────────────
 # 🧩 Rune Mini-Game Solver
 # ─────────────────────────────
