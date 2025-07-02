@@ -1824,9 +1824,6 @@ class MapleStoryBot:
         elif self.status == "finding_rune":
             if self.is_player_stuck():
                 command = self.get_random_action()
-            else:
-                # Construct command from individual components
-                command = f"{cmd_left_right} {cmd_up_down} {cmd_action}"
 
             # If the HP is reduced switch to hurting (other player probably help solved the rune)
             if  time.time() - self.health_monitor.t_last_hp_reduce < 3 and \
