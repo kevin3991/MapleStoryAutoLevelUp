@@ -212,7 +212,7 @@ ui_coords:
   "random_channel": [877, 161]
   "random_channel_confirm": [585, 420]
   "select_character": [888, 275]
-  login_button_thres: 0.05 #
+  login_button_thres: 0.17 #
   login_button_top_left: [838, 376] # top left corner of login button search ragne
   login_button_bottom_right: [940, 432] # bottom right corner of login button search ragne
 

@@ -146,7 +146,7 @@ rune_detect:
 # ────────────────
 # Defines the bot's strategy for searching and interacting with the rune.
 rune_find:
-  timeout: 180               # ⏳ Maximum time (in seconds) to keep searching before giving up
+  timeout: 10               # ⏳ Maximum time (in seconds) to keep searching before giving up
                               # If the timeout is reached, the bot will fallback to route_rest.png and rest.
   timeout_action: "change_channel" # "go_home"
   near_rune_duration: 10       # 🕒 Duration to interact with rune when a positive detection occurs
