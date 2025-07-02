@@ -90,8 +90,9 @@ buff_skill:
 # Smaller range -> you will fight monster in close-range combat
 # Larger range -> you will attack monster far away, but could hit nothing if it's set to large
 directional_attack:
-  range_x: 320              # ↔️ Try reducing if you’re hitting unreachable monsters.
-  range_y: 90               # ↕️
+  cooldown: 0.4               # Magic claw
+#   range_x: 320              # ↔️ Try reducing if you’re hitting unreachable monsters.
+#   range_y: 60               # ↕️
 
 # 💥 AOE SKILL SETTINGS
 # Similar to directional attack. Adjust to match your AoE hitbox on screen.
@@ -100,7 +101,7 @@ aoe_skill:
   # range_x: 350               # ↔️ Try reducing if you’re hitting unreachable monsters.
   # range_y: 170               # ↕️
   # Holy light
-  range_x: 400               # ↔️ Try reducing if you’re hitting unreachable monsters.
+  range_x: 350               # ↔️ Try reducing if you’re hitting unreachable monsters.
   range_y: 170               # ↕️
 
 # ❤️ HEALTH MONITOR
