@@ -1322,6 +1322,15 @@ class MapleStoryBot:
             # logger.warning("Failed to get minimap location and size.") # too verbose
         else:
             x, y, w, h = minimap_result
+            
+            # Apply minimap position offset (adjust these values as needed)
+            # Positive values move right and down, negative values move left and up
+            x_offset = 1  # Move 2 pixels to the right
+            y_offset = 1  # Move 2 pixels down
+            
+            x += x_offset
+            y += y_offset
+            
             self.loc_minimap = (x, y)
             self.img_minimap = self.img_frame[y:y+h, x:x+w]
         self.profiler.mark("get_minimap_loc_size")
