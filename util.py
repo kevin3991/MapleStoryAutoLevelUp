@@ -19,22 +19,12 @@ import yaml
 import pyautogui
 import pygetwindow as gw
 
-<<<<<<< HEAD
-# Configure PyAutoGUI to prevent fail-safe issues
-pyautogui.FAILSAFE = False  # Disable fail-safe to prevent exceptions during automation
-pyautogui.PAUSE = 0  # Remove delay between actions
-
-# macOS specific import
-if platform.system() == 'Darwin':
-    import Quartz
-=======
 # macOS specific import
 if platform.system() == 'Darwin':
     import Quartz
 else:
     import win32gui
     import win32con
->>>>>>> main
 
 # Local import
 from logger import logger
