@@ -28,3 +28,7 @@ run-monkey-swamp-3:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map monkey_swamp_3 --monsters angel_monkey --attack aoe_skill --cfg=gun
 run-garden-of-red-2:
 	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map garden_of_red_2 --monsters red_cellion --attack directional --cfg=gun
+run-pig-shores:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map pig_shores --monsters pig,ribbon_pig --attack directional --cfg=gun
+run-first-barrack:
+	$(ACTIVATE); $(PYTHON) mapleStoryAutoLevelUp.py --map first_barrack --monsters skeleton_soldier,skeleton_officer --attack directional --cfg=gun
