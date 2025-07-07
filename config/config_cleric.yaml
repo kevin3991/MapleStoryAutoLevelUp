@@ -84,8 +84,8 @@ edge_teleport:
 # 🧙 BUFF SKILLS
 # Add keys for buffs you want to auto-cast. Match cooldowns with actual in-game durations.
 buff_skill:
-  keys: ["f", "4", "5"]          # ⌨️ Add one or more buff keys here (in order).
-  cooldown: [122, 70, 50]       # ⏱️ Set each skill’s cooldown (seconds). Be precise to avoid spamming.
+  keys: ["f", "4", "5", "6"]          # ⌨️ Add one or more buff keys here (in order).
+  cooldown: [122, 70, 50, 80]       # ⏱️ Set each skill’s cooldown (seconds). Be precise to avoid spamming.
 
 # ⚔️ DIRECTIONAL ATTACK SETTINGS
 # Tune these by observing the debug window.
@@ -172,7 +172,7 @@ rune_solver:
 # Controls performance and behavior of core system threads.
 
 system:
-  fps_limit_main: 30                # 🚥 Main loop FPS – controls how fast the main thread runs
+  fps_limit_main: 15                # 🚥 Main loop FPS – controls how fast the main thread runs
   fps_limit_keyboard_controller: 30 # 🚥 Keyboard controller thread FPS
   fps_limit_window_capturor: 20     # 🚥 Window capture thread FPS
   fps_limit_route_recorder: 10      # 🚥 Route recorder FPS

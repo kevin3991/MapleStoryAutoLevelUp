@@ -1270,7 +1270,7 @@ class MapleStoryBot:
         for i, coord in enumerate(coords[:4]):
             click_in_game_window(window_title, coord)
             time.sleep(1)
-        time.sleep(35)
+        time.sleep(45)
         click_in_game_window(window_title, coords[4])
         time.sleep(2)
         click_in_game_window(window_title, coords[5])
@@ -1322,8 +1322,15 @@ class MapleStoryBot:
             # logger.warning("Failed to get minimap location and size.") # too verbose
         else:
             x, y, w, h = minimap_result
+
+            x_offset = 1
+            y_offset = 1
+
+            x += x_offset
+            y += y_offset
+
             self.loc_minimap = (x, y)
-            self.img_minimap = self.img_frame[y:y+h, x:x+w]
+            self.img_minimap = self.img_frame[y:y+h, x:x+w] # TODO: check if this is correct
         self.profiler.mark("get_minimap_loc_size")
 
         # Get current route image
