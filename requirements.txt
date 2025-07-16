@@ -4,6 +4,7 @@ pyautogui
 pynput
 requests
 pyyaml
+ruamel.yaml
 PySide6
 pywin32; sys_platform == "win32"
 windows-capture ; sys_platform == "win32"

@@ -1,0 +1,48 @@
+bot:
+  map: garden_of_red_2
+buff_skill:
+  cooldown:
+  - 140
+  - 190
+  keys:
+  - '1'
+  - '2'
+channel_change:
+  mode: pixel
+directional_attack:
+  range_x: 320
+  range_y: 90
+email:
+  enable: true
+  receiver_email: court.dream3@gmail.com
+health_monitor:
+  add_hp_percent: 40
+  add_mp_percent: 40
+  return_home_if_no_potion: true
+key:
+  add_hp: '5'
+  add_mp: '6'
+  directional_attack: s
+  jump: z
+  party: y
+  return_home: '0'
+  teleport: "\u232B"
+rune_find:
+  timeout: 800
+rune_solver:
+  arrow_box_coord:
+  - 355
+  - 365
+  arrow_box_diff_thres: 0.32
+rune_warning:
+  bottom_right:
+  - 768
+  - 256
+  diff_thres: 0.35
+  top_left:
+  - 513
+  - 216
+system:
+  fps_limit_main: 20
+ui_coords:
+  login_button_thres: 0.17

@@ -1651,6 +1651,8 @@ class MapleStoryAutoBot:
 
             x += x_offset
             y += y_offset
+            w -= 2
+            h -= 2
 
             self.loc_minimap = (x, y)
             self.img_minimap = self.img_frame[y:y+h, x:x+w]
