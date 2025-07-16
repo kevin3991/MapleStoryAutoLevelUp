@@ -1,5 +1,5 @@
 bot:
-  map: garden_of_red_2
+  map: foggy_forest_for_mage
 buff_skill:
   cooldown:
   - 140
@@ -7,8 +7,6 @@ buff_skill:
   keys:
   - '1'
   - '2'
-channel_change:
-  mode: pixel
 directional_attack:
   range_x: 320
   range_y: 90
